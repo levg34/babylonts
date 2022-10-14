@@ -1,26 +1,45 @@
-import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder } from 'babylonjs'
+import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light } from 'babylonjs'
 
 export class Playground {
-    static CreateScene(engine: Engine, canvas: Nullable<HTMLCanvasElement>) {
+    static scene: Scene
+    static camera: TargetCamera // Camera
+    static light: Light
+    static sphere: Mesh
+    static ground: Mesh
+
+    static createScene(engine: Engine, canvas: Nullable<HTMLCanvasElement>): Scene {
         // This creates a basic Babylon Scene object (non-mesh)
-        const scene = new Scene(engine)
+        this.scene = new Scene(engine)
         // This creates and positions a free camera (non-mesh)
-        const camera = new FreeCamera('camera1', new Vector3(0, 5, -10), scene)
+        this.camera = new FreeCamera('camera1', new Vector3(0, 5, -10), this.scene)
         // This targets the camera to scene origin
-        camera.setTarget(Vector3.Zero())
+        this.camera.setTarget(Vector3.Zero())
         // This attaches the camera to the canvas
-        camera.attachControl(canvas, true)
+        this.camera.attachControl(canvas, true)
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-        const light = new HemisphericLight('light1', new Vector3(0, 1, 0), scene)
+        this.light = new HemisphericLight('light1', new Vector3(0, 1, 0), this.scene)
         // Default intensity is 1. Let's dim the light a small amount
-        light.intensity = 0.7
+        this.light.intensity = 0.7
         // Our built-in 'sphere' shape. Params: name, options, scene
-        const sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, scene)
+        this.sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, this.scene)
         // Move the sphere upward 1/2 its height
-        sphere.position.y = 1
+        this.sphere.position.y = 1
+
+        addEventListener("wheel", (e) => {
+            e.preventDefault()
+            // console.log({x:e.deltaX,y:e.deltaY,z:e.deltaZ})
+            if (this.sphere) {
+                this.sphere.position.y -=0.1*(e.deltaY/100);
+            }
+        })
+    
         // Our built-in 'ground' shape. Params: name, options, scene
-        const ground = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, scene)
-        console.log(ground)
-        return scene
+        this.ground = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, this.scene)
+        return this.scene
+    }
+
+    static renderLoop(_engine: Engine, _canvas: Nullable<HTMLCanvasElement>) {
+        this.sphere.position.x -= 0.01
+        return null
     }
 }
