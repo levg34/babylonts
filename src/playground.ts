@@ -1,16 +1,21 @@
 import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light } from 'babylonjs'
 
 export class Playground {
-    static scene: Scene
-    static camera: TargetCamera // Camera
-    static light: Light
-    static sphere: Mesh
-    static ground: Mesh
+    scene!: Scene
+    camera!: TargetCamera // Camera
+    light!: Light
+    sphere!: Mesh
+    ground!: Mesh
 
-    static engine: Engine
-    static canvas: Nullable<HTMLCanvasElement>
+    engine: Engine
+    canvas: Nullable<HTMLCanvasElement>
 
-    static createScene(): Scene {
+    constructor(engine: Engine, canvas: Nullable<HTMLCanvasElement>) {
+        this.engine = engine
+        this.canvas = canvas
+    }
+
+    createScene(): Scene {
         // This creates a basic Babylon Scene object (non-mesh)
         this.scene = new Scene(this.engine)
         // This creates and positions a free camera (non-mesh)
@@ -41,7 +46,7 @@ export class Playground {
         return this.scene
     }
 
-    static renderLoop() {
+    renderLoop() {
         this.sphere.position.x -= 0.01
         return null
     }
