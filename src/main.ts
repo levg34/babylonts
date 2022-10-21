@@ -4,14 +4,15 @@ import { Playground } from './playground'
 
 const canvas: Nullable<HTMLCanvasElement> = document.getElementById('renderCanvas') as Nullable<HTMLCanvasElement>
 
-let engine: Engine | null = null
-let scene: Scene | null = null
-let sceneToRender: Scene | null = null
+let engine: Engine
+let scene: Scene
+let sceneToRender: Scene
+let playground: Playground
 
 const startRenderLoop = function (engine: Engine, _canvas: Nullable<HTMLCanvasElement>) {
     engine.runRenderLoop(function () {
         if (sceneToRender && sceneToRender.activeCamera) {
-            Playground.renderLoop()
+            playground.renderLoop()
             sceneToRender.render()
         }
     })
@@ -23,9 +24,8 @@ const createDefaultEngine = function () {
 
 const createScene = function () {
     if (engine === null) throw 'Engine is null'
-    Playground.engine = engine
-    Playground.canvas = engine.getRenderingCanvas()
-    return Playground.createScene()
+    playground = new Playground(engine, engine.getRenderingCanvas())
+    return playground.createScene()
 }
 
 const initFunction = async function () {
