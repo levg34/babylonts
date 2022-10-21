@@ -7,15 +7,18 @@ export class Playground {
     static sphere: Mesh
     static ground: Mesh
 
-    static createScene(engine: Engine, canvas: Nullable<HTMLCanvasElement>): Scene {
+    static engine: Engine
+    static canvas: Nullable<HTMLCanvasElement>
+
+    static createScene(): Scene {
         // This creates a basic Babylon Scene object (non-mesh)
-        this.scene = new Scene(engine)
+        this.scene = new Scene(this.engine)
         // This creates and positions a free camera (non-mesh)
         this.camera = new FreeCamera('camera1', new Vector3(0, 5, -10), this.scene)
         // This targets the camera to scene origin
         this.camera.setTarget(Vector3.Zero())
         // This attaches the camera to the canvas
-        this.camera.attachControl(canvas, true)
+        this.camera.attachControl(this.canvas, true)
         // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
         this.light = new HemisphericLight('light1', new Vector3(0, 1, 0), this.scene)
         // Default intensity is 1. Let's dim the light a small amount
@@ -38,7 +41,7 @@ export class Playground {
         return this.scene
     }
 
-    static renderLoop(_engine: Engine, _canvas: Nullable<HTMLCanvasElement>) {
+    static renderLoop() {
         this.sphere.position.x -= 0.01
         return null
     }

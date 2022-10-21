@@ -8,10 +8,10 @@ let engine: Engine | null = null
 let scene: Scene | null = null
 let sceneToRender: Scene | null = null
 
-const startRenderLoop = function (engine: Engine, canvas: Nullable<HTMLCanvasElement>) {
+const startRenderLoop = function (engine: Engine, _canvas: Nullable<HTMLCanvasElement>) {
     engine.runRenderLoop(function () {
         if (sceneToRender && sceneToRender.activeCamera) {
-            Playground.renderLoop(engine, canvas)
+            Playground.renderLoop()
             sceneToRender.render()
         }
     })
@@ -23,7 +23,9 @@ const createDefaultEngine = function () {
 
 const createScene = function () {
     if (engine === null) throw 'Engine is null'
-    return Playground.createScene(engine, engine.getRenderingCanvas())
+    Playground.engine = engine
+    Playground.canvas = engine.getRenderingCanvas()
+    return Playground.createScene()
 }
 
 const initFunction = async function () {
@@ -48,6 +50,6 @@ initFunction().then(() => {
 
 // Resize
 addEventListener('resize', function () {
-    if (engine === null) throw 'Engine is null'
+    if (!engine) throw 'Engine is null'
     engine.resize()
 })
