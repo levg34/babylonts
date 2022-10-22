@@ -1,3 +1,3 @@
-# test-babylonjs
+# babylon-ts-template
 
-Test for babylonjs
+Template to start a babylonjs project in TypeScript with vite builder.
