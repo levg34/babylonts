@@ -41,8 +41,8 @@ jobs:
         run: pnpm install
       - name: build
         run: pnpm build
-      - name: check
-        run: ls -la
+      - name: rename out folder
+        run: mv dist/ _site/
       - name: Setup Pages
         uses: actions/configure-pages@v2
 #        with:
