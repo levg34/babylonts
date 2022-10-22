@@ -40,14 +40,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: build
-        run: pnpm build
+        run: pnpm build --base=/babylonts/
       - name: rename out folder
         run: mv dist/ _site/
       - name: Setup Pages
         uses: actions/configure-pages@v2
-#        with:
-#          source: ./
-#          destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
