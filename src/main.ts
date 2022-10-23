@@ -38,6 +38,7 @@ const initFunction = function () {
     sceneToRender = scene
 
     listeners = new Listeners(playground)
+    console.log(listeners)
 }
 
 initFunction()
