@@ -5,8 +5,7 @@ export class Playground implements PlaygroundInterface {
     scene!: Scene
     camera!: TargetCamera
     light!: Light
-    sphere!: Mesh
-    ground!: Mesh
+    mesh: Record<string, Mesh> = {}
 
     engine: Engine
     canvas: Nullable<HTMLCanvasElement>
@@ -30,25 +29,25 @@ export class Playground implements PlaygroundInterface {
         // Default intensity is 1. Let's dim the light a small amount
         this.light.intensity = 0.7
         // Built-in 'sphere' shape. Params: name, options, scene
-        this.sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, this.scene)
+        this.mesh['sphere'] = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, this.scene)
         // Move the sphere upward 1/2 its height
-        this.sphere.position.y = 1
+        this.mesh['sphere'].position.y = 1
 
         addEventListener("wheel", (e) => {
             e.preventDefault()
             // console.log({x:e.deltaX,y:e.deltaY,z:e.deltaZ})
-            if (this.sphere) {
-                this.sphere.position.y -=0.1*(e.deltaY/100);
+            if (this.mesh['sphere']) {
+                this.mesh['sphere'].position.y -=0.1*(e.deltaY/100);
             }
         })
     
         // Built-in 'ground' shape. Params: name, options, scene
-        this.ground = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, this.scene)
+        this.mesh['ground'] = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, this.scene)
         return this.scene
     }
 
     renderLoop() {
-        this.sphere.position.x -= 0.01
+        this.mesh['sphere'].position.x -= 0.01
         return null
     }
 }
