@@ -1,8 +1,21 @@
-import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light } from 'babylonjs'
+import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light, Camera } from 'babylonjs'
 
-export class Playground {
+interface SceneBasics {
+    scene: Scene
+    camera: Camera
+    light: Light
+    sphere: Mesh
+    ground: Mesh
+}
+
+interface EngineBasics {
+    engine: Engine
+    canvas: Nullable<HTMLCanvasElement>
+}
+
+export class Playground implements SceneBasics, EngineBasics {
     scene!: Scene
-    camera!: TargetCamera // Camera
+    camera!: TargetCamera
     light!: Light
     sphere!: Mesh
     ground!: Mesh
@@ -28,7 +41,7 @@ export class Playground {
         this.light = new HemisphericLight('light1', new Vector3(0, 1, 0), this.scene)
         // Default intensity is 1. Let's dim the light a small amount
         this.light.intensity = 0.7
-        // Our built-in 'sphere' shape. Params: name, options, scene
+        // Built-in 'sphere' shape. Params: name, options, scene
         this.sphere = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, this.scene)
         // Move the sphere upward 1/2 its height
         this.sphere.position.y = 1
@@ -41,7 +54,7 @@ export class Playground {
             }
         })
     
-        // Our built-in 'ground' shape. Params: name, options, scene
+        // Built-in 'ground' shape. Params: name, options, scene
         this.ground = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, this.scene)
         return this.scene
     }
