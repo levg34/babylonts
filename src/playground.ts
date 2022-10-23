@@ -32,14 +32,6 @@ export class Playground implements PlaygroundInterface {
         this.mesh['sphere'] = MeshBuilder.CreateSphere('sphere', { diameter: 2, segments: 32 }, this.scene)
         // Move the sphere upward 1/2 its height
         this.mesh['sphere'].position.y = 1
-
-        addEventListener("wheel", (e) => {
-            e.preventDefault()
-            // console.log({x:e.deltaX,y:e.deltaY,z:e.deltaZ})
-            if (this.mesh['sphere']) {
-                this.mesh['sphere'].position.y -=0.1*(e.deltaY/100);
-            }
-        })
     
         // Built-in 'ground' shape. Params: name, options, scene
         this.mesh['ground'] = MeshBuilder.CreateGround('ground', { width: 6, height: 6 }, this.scene)
