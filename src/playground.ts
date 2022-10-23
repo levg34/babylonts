@@ -1,19 +1,7 @@
-import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light, Camera } from 'babylonjs'
+import { Engine, Nullable, Scene, FreeCamera, Vector3, HemisphericLight, MeshBuilder, Mesh, TargetCamera, Light } from 'babylonjs'
+import { PlaygroundInterface } from './interface'
 
-interface SceneBasics {
-    scene: Scene
-    camera: Camera
-    light: Light
-    sphere: Mesh
-    ground: Mesh
-}
-
-interface EngineBasics {
-    engine: Engine
-    canvas: Nullable<HTMLCanvasElement>
-}
-
-export class Playground implements SceneBasics, EngineBasics {
+export class Playground implements PlaygroundInterface {
     scene!: Scene
     camera!: TargetCamera
     light!: Light
