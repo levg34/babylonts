@@ -1,6 +1,7 @@
 import './style.css'
 import { Engine, Scene, Nullable } from 'babylonjs'
 import { Playground } from './playground'
+import { Listeners } from './listeners'
 
 const canvas: Nullable<HTMLCanvasElement> = document.getElementById('renderCanvas') as Nullable<HTMLCanvasElement>
 
@@ -8,6 +9,7 @@ let engine: Engine
 let scene: Scene
 let sceneToRender: Scene
 let playground: Playground
+let listeners: Listeners
 
 const startRenderLoop = function (engine: Engine) {
     engine.runRenderLoop(function () {
@@ -34,12 +36,8 @@ const initFunction = function () {
     scene = createScene()
 
     sceneToRender = scene
+
+    listeners = new Listeners(playground)
 }
 
 initFunction()
-
-// Resize
-addEventListener('resize', function () {
-    if (!engine) throw 'Engine is null'
-    engine.resize()
-})
