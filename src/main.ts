@@ -9,7 +9,7 @@ let scene: Scene
 let sceneToRender: Scene
 let playground: Playground
 
-const startRenderLoop = function (engine: Engine, _canvas: Nullable<HTMLCanvasElement>) {
+const startRenderLoop = function (engine: Engine) {
     engine.runRenderLoop(function () {
         if (sceneToRender && sceneToRender.activeCamera) {
             playground.renderLoop()
@@ -23,30 +23,20 @@ const createDefaultEngine = function () {
 }
 
 const createScene = function () {
-    if (engine === null) throw 'Engine is null'
     playground = new Playground(engine, engine.getRenderingCanvas())
     return playground.createScene()
 }
 
-const initFunction = async function () {
-    const asyncEngineCreation = async function () {
-        try {
-            return createDefaultEngine()
-        } catch (e) {
-            console.log('the available createEngine function failed. Creating the default engine instead')
-            return createDefaultEngine()
-        }
-    }
-
-    engine = await asyncEngineCreation()
+const initFunction = function () {
+    engine = createDefaultEngine()
     if (!engine) throw 'engine should not be null.'
-    startRenderLoop(engine, canvas)
+    startRenderLoop(engine)
     scene = createScene()
+
+    sceneToRender = scene
 }
 
-initFunction().then(() => {
-    sceneToRender = scene
-})
+initFunction()
 
 // Resize
 addEventListener('resize', function () {
