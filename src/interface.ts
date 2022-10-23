@@ -4,8 +4,7 @@ interface SceneBasics {
     scene: Scene
     camera: Camera
     light: Light
-    sphere: Mesh
-    ground: Mesh
+    mesh: Record<string,Mesh>
 }
 
 interface EngineBasics {
