@@ -1,21 +1,19 @@
 import './style.css'
 import { Engine, Scene, Nullable } from 'babylonjs'
 import { Playground } from './playground'
-import { Listeners } from './listeners'
+import { initListeners } from './listeners'
 
 const canvas: Nullable<HTMLCanvasElement> = document.getElementById('renderCanvas') as Nullable<HTMLCanvasElement>
 
 let engine: Engine
 let scene: Scene
-let sceneToRender: Scene
 let playground: Playground
-let listeners: Listeners
 
 const startRenderLoop = function (engine: Engine) {
     engine.runRenderLoop(function () {
-        if (sceneToRender && sceneToRender.activeCamera) {
+        if (scene && scene.activeCamera) {
             playground.renderLoop()
-            sceneToRender.render()
+            scene.render()
         }
     })
 }
@@ -35,10 +33,7 @@ const initFunction = function () {
     startRenderLoop(engine)
     scene = createScene()
 
-    sceneToRender = scene
-
-    listeners = new Listeners(playground)
-    console.log(listeners)
+    initListeners(playground)
 }
 
 initFunction()

@@ -38,8 +38,7 @@ export class Playground implements PlaygroundInterface {
         return this.scene
     }
 
-    renderLoop() {
+    renderLoop(): void {
         this.mesh['sphere'].position.x -= 0.01
-        return null
     }
 }
